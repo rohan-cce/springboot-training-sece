@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+// @RestController // <-- TUTOR SABOTAGE: Leave this commented out! Hit localhost:8080/students and watch it yield a massive 404 NOT FOUND error. Explain to students that without this sticky note, Spring completely ignores this class! Uncomment it live to fix!
 public class StudentController {
     
     // VOLATILE MEMORY STORAGE: This array dies the exact second the Server stops running.

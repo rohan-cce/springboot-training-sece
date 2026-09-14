@@ -9,7 +9,7 @@ public class StudentController {
     private final StudentService service;
     public StudentController(StudentService service) { this.service = service; }
     @PostMapping("/students")
-    public Student addStudent(@RequestBody StudentDTO studentDto) {
+    public Student addStudent(/* @Valid */ @RequestBody StudentDTO studentDto) { // TUTOR SABOTAGE: Leave @Valid commented out! Force them to enter a negative age, watch it crash violently with a raw 500 error, THEN uncomment @Valid on stage to prove how it catches the 400 Bad Request elegantly!
         return service.addStudent(studentDto);
     }
     @GetMapping("/students")

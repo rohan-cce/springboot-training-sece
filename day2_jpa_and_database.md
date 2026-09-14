@@ -1,58 +1,52 @@
-# Day 2 Curriculum: Relational Databases, Advanced JPA, and N-Tier Architecture (6 Hours)
+# Day 2: Relational Databases & N-Tier Architecture (Trainer Script)
 
 ## Session 1: Relational Databases & SQL Crash Course (1.5 Hours)
-- **Why Do We Need a Database?**
-  - Reiterate Volatility (RAM is wiped identically to turning off a computer).
-  - Introduction to Non-volatile storage (Hard Drives) and how Databases interact with them cleanly.
-- **Relational vs NoSQL Databases**
-  - Why relational structures (PostgreSQL, MySQL, Oracle, H2) rule the enterprise.
-  - Designing a strict Table Schema (Rows, Columns, Data Types).
-- **SQL (Structured Query Language) Refresher**
-  - Writing raw database queries: `SELECT * FROM students WHERE age > 18;`
-  - Explaining the Big 4: `INSERT`, `SELECT`, `UPDATE`, `DELETE`.
-  - *Exercise (30 min):* Let students open a simple online SQL terminal (or use the built in H2 engine) to manually write 5 queries to solidify their understanding before we let Java auto-generate them.
-- **The Concept of Primary Keys**
-  - Why UUIDs or auto-incrementing Numbers are essential to uniquely identify records instead of volatile fields like First Names.
 
-## Session 2: ORM and Spring Data JPA (1.5 Hours)
-- **The Problem with Raw JDBC in Java**
-  - Exhibit the 50 lines of boilerplate Java code required to open an SQL connection, securely draft a string query, extract a `ResultSet`, and finally catch multiple `SQLExceptions`.
-  - Introduce SQL Injection vulnerabilities (Bobby Tables!).
-- **Enter ORM (Object-Relational Mapping)**
-  - Bridging the gap: Java is strictly Object-Oriented; Databases are highly Relational.
-  - **JPA (API Rules) vs Hibernate (The Engine Implementation).**
-- **Building the `@Entity`**
-  - Create the `Student.java` inside an `entity` package.
-  - 🧠 *Deep Dive:* The `@GeneratedValue(strategy = GenerationType.IDENTITY)` tag. Why assigning an `id` manually in code causes terrifying race conditions when 1,000 students hit the API simultaneously, and how pushing that responsibility directly onto the Database engine ensures millisecond perfect uniqueness.
-- **The Magic of Interfaces (`@Repository`)**
-  - Create `StudentRepository` extending `JpaRepository`.
-  - Show how Spring parses English method names into live SQL: `findByNameAndAgeGreaterThan(String name, int age)` automatically becomes `SELECT * WHERE name=? AND age>?`.
-  - *Exercise (20 min):* Students will build 1 complex Entity with 5 fields and 1 functional Repository.
+### 1. Fixing Volatility with Non-Volatile Storage
+> **What to say:** "Welcome to Day 2! Yesterday, we suffered catastrophic data loss when we restarted the server. Why? Because regular Java variables sit in RAM, which instantly evaporates on shutdown. Today, we fix this permanently by introducing Non-Volatile Storage architecture: **The Relational Database**. Databases write your data safely down into massive physical hard drives organized logically into distinct Rows and Columns."
 
-## Session 3: Validating Data and DTO Architecture (1.5 Hours)
-- **🧠 Deep Dive: Data Transfer Objects (DTOs)**
-  - Why we strongly recommend **NEVER** exposing Database Entities (Tables) directly to the Web API via `@RequestBody`.
-  - Example: A Student entity might have a secret `private boolean isAdmin` or `private double feesOwed` column. If a malicious student reverse-engineers the JSON payload and pushes `{"isAdmin": true, "feesOwed": 0.0}`, the Entity architecture blindly persists it.
-  - Solution: A dummy `StudentDTO.java` class possessing only safe frontend fields.
-- **Data Validation (`@Valid`)**
-  - Invalid inputs corrupt databases.
-  - Introduce the Spring Boot Validation starter library.
-  - Tag DTO fields with `@NotBlank(message="Name is required")` and `@Min(1)`.
-  - Place `@Valid` directly in the `@PostMapping` Controller method.
-  - *Exercise (40 min):* Students heavily secure their endpoints with DTOs and Validation limits. Test extensively via Postman by sending invalid fields and observing Spring intercept the 400 Bad Request error automatically.
+### 2. The SQL Deep Dive
+> **What to say:** "To speak to a database, you cannot use Java. You must use a mathematical language called SQL. For example, if I want to insert data, I legitimately have to write `INSERT INTO students (name, age) VALUES ('Rohan', 21)`. 
+> 
+> *However*, managing huge raw string queries inside Java code is vulnerable, highly disorganized, and frankly terrible for maintenance. We need a bridge between our Java Classes and SQL Tables. Enter **Object-Relational Mapping (ORM)** and **JPA**."
 
-## Session 4: Standard N-Tier Architecture & The `@Service` Layer (1.5 Hours)
-- **Why controllers shouldn't touch Databases**
-  - Currently, we injected `StudentRepository` directly into `StudentController`. This egregiously violates the Single Responsibility Principle for complex enterprise apps.
-- **The N-Tier Model (Controller -> Service -> Repository -> Database)**
-  - **Controller Layer:** Specifically routes HTTP traffic and speaks JSON. Contains zero business logic!
-  - **Service Layer:** The heaviest Java layer. Contains mathematical processes, email integrations, logic validations, and algorithms.
-  - **Repository Layer:** Strictly interfaces with the specific dialect of the physical Database.
-- **🧠 Deep Dive: Dependency Injection (Inversion of Control) & Beans**
-  - Introduce the `@Service` annotation.
-  - Explain how Spring Boot constructs reusable objects (called **"Beans"**) and places them into an overarching application bucket at startup.
-  - **The `@Autowired` Keyword:** Explain that when classes need another class to function, they "inject" that dependency. Historically, developers placed `@Autowired` above their variables. However, modern Spring natively auto-wires any Bean directly entirely through the Constructor without needing the `new` keyword anywhere!
-- **End-to-End Implementation Lab:**
-  - Let students refactor their entire codebase into standard 4-package architecture (`controller/`, `service/`, `repository/`, `dto/`).
-  - Route flow: `POST /api/students` -> `StudentController` -> `studentService.registerStudent(dto)` -> `repository.save(entity)`.
-  - **Seeing the Final Database physically:** Walk students through hitting `http://localhost:8080/h2-console`, securely authenticating to `jdbc:h2:mem:studentdb` with user `sa`, and running `SELECT * FROM student;` to visually prove their Java DTO translated to physical data.
+## Session 2: ORM, JPA and Stereotypes (1.5 Hours)
+
+### 1. The `@Entity` and Identifiers
+> **What to say:** "With JPA, we can just code in standard Java! We simply place the sticky note `@Entity` directly on top of our `Student` class. The framework automatically converts that Java class physically into a raw SQL database table.
+> Let's look at the Primary Key. Why do we rigorously use `@Id` and `@GeneratedValue(strategy = GenerationType.IDENTITY)`? Because if 1,000 students hit 'Register' on your website at the exact same millisecond, and we calculated IDs manually in Java, they would crash creating identical IDs. By passing that structural responsibility entirely over to the Database engine itself, we mathematically guarantee millisecond-perfect unique uniqueness!"
+
+### 2. Repository Stereotypes and Magic Queries
+> **What to say:** "Now we need a tool to fetch our Entities. We do this by building a customized interface using the `@Repository` stereotype. Think of stereotypes exactly like military ranks. `@Component` is a generic soldier. But `@Repository` is a specialized Sniper. When Spring sees it, it grants it proprietary database exception-handling powers.
+> The craziest part about Spring Data repositories? **Magic Methods!** You can literally type `List<Student> findByAgeGreaterThan(18)` in pure english, and Spring will physically generate the `SELECT * WHERE age > 18` SQL code for you completely under the hood!"
+
+## Session 5: Live Troubleshooting & Missing Bean Crash Lab (1.0 Hour)
+*(Tutor Note: Before class starts, ensure that `@Service` is completely commented out inside `StudentService.java`. When you start the Spring Boot application locally in front of them, it will violently crash. Use this to actively teach them how to confidently read Java Stack Traces!)*
+
+### 1. The ApplicationContext Error
+> **What to say:** "Do not panic when your terminal explodes in red text! This is called a Stack Trace, and it is a developer's best friend. Look closely at the error message: `Parameter 0 of constructor in StudentController required a bean of type 'StudentService' that could not be found.` 
+> 
+> What does this mean? It means our `StudentController` demanded a `StudentService` object through Dependency Injection, but Spring's internal component bucket (the ApplicationContext) was entirely empty!"
+
+### 2. Diagnosing and Fixing the Root Cause
+> **What to say:** "Let's investigate `StudentService.java`. Why didn't Spring create the Bean for us? Because it is missing its structural sticky note! Because we removed the `@Service` annotation above the class, Spring's `@ComponentScan` completely ignored this file during startup. It had absolutely no idea it was supposed to build it. Restore the `@Service` annotation, restart the server, and watch how it boots flawlessly!"
+
+## Session 6: Advanced JPA Mappings & Custom Queries (1.5 Hours)
+
+### 1. `ManyToOne` Relational Mappings
+> **What to say:** "What if an application has two distinctly different tables, like `Student` and `Department`? Relational mapping links them permanently. If hundreds of Students structurally belong to exactly one University Department, we rigorously map them utilizing `@ManyToOne`. We physically enforce this in the database using a Foreign Key constraint—using `@JoinColumn(name = 'department_id')` so the student row permanently knows exactly which department bucket it belongs to!"
+
+### 2. The INNER JOIN vs LEFT JOIN Truth
+> **What to say:** "Now for the big question: How does the Database physically retrieve the string 'Computer Science' if our Student row only stores `department_id = 4`? We must write complex SQL Joins.
+> 
+> If we write an `INNER JOIN`, the system organically fuses the two tables horizontally, yielding a perfect combined row. But beware the **Edge Case**: What happens if a brand new 1st-year student hasn't officially declared a department yet, meaning their `department_id` is totally null? An `INNER JOIN` violently drops them from all database search results blindly! To resolve this, we switch to a `LEFT JOIN`. This safely retrieves the entire roster of students unconditionally, simply outputting `NULL` strictly for their missing department column."
+
+## Session 4: DTOs, Security & Global Exceptions (1.5 Hours)
+
+### 1. Securing with DTOs and Validation
+> **What to say:** "As professional architects, we *never* expose our raw Database `@Entity` objects directly to the Web Controller API. If a hacker reverse-engineers the JSON payload, they could inject malicious values straight into hidden database columns like `feesOwed = 0`. 
+> 
+> To protect the database, we build a **Data Transfer Object (DTO)**. This is just a 'dummy shell' class possessing only safe frontend fields. You lock it down heavily using `@Valid` annotations like `@NotBlank`. If someone provides a negative age, Spring instantly rejects the payload mathematically before it even reaches the database!"
+
+### 2. Global Exception Handling
+> **What to say:** "If a validation uniquely fails, Tomcat throws a massive, horrifying HTML stack trace back to the user interface. That is terrible application UX! We need to intercept those crashes gracefully. We do this by architecting a `GlobalExceptionHandler` and pasting the `@ControllerAdvice` sticker on it. This class operates like a giant net hovering entirely over our application. The split-second an exception throws anywhere, this class catches it dynamically and reformats it cleanly into a structured, peaceful JSON Map returning `{\"error\": \"Age must be greater than zero\"}`!"

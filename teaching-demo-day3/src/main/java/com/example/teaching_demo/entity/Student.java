@@ -1,8 +1,5 @@
 package com.example.teaching_demo.entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 @Entity
 public class Student {
     @Id
@@ -10,6 +7,13 @@ public class Student {
     private Long id;
     private String name;
     private int age;
+
+    // Relational Mapping: Many Students logically belong to exactly One Department
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // Constructors
     public Student() {}
     public Student(String name, int age) { this.name = name; this.age = age; }
     public Long getId() { return id; }
