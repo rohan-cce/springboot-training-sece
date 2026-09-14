@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Directory</title>
+    <!-- Basic aesthetic CSS mapping so we don't have to write CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        body { padding: 40px; max-width: 900px; margin: 0 auto; }
+        .form-container { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Student Directory</h1>
+    
+    <div class="form-container">
+        <h3>Add a New Student</h3>
+        <!-- Note: We use Javascript to submit this form, no 'action' attribute is needed -->
+        <form id="student-form">
+            <label>Name: </label>
+            <input type="text" id="name" required placeholder="Enter student name" />
+            
+            <label>Age: </label>
+            <input type="number" id="age" required min="1" placeholder="Enter student age" />
+            
+            <button type="submit">Save Student</button>
+        </form>
+    </div>
+
+    <h3>Registered Students</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <!-- Empty body; Javascript will aggressively build the rows here dynamically -->
+        <tbody id="student-table">
+        </tbody>
+    </table>
+
+    <script>
+        // 1. Fetch Students from the API (GET Request)
+        function loadStudents() {
+            fetch('/students')
+                .then(response => response.json())
+                .then(students => {
+                    const table = document.getElementById('student-table');
+                    table.innerHTML = ''; // Clear old visual data
+                    
+                    // Loop through the JSON array and construct HTML strings natively
+                    students.forEach(student => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${student.id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.age}</td>
+                        `;
+                        table.appendChild(tr);
+                    });
+                });
+        }
+
+        // 2. Add New Student (POST Request)
+        document.getElementById('student-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop page from hard-refreshing
+            
+            // Extract what the user typed in the boxes
+            const nameVal = document.getElementById('name').value;
+            const ageVal = document.getElementById('age').value;
+
+            // Make the background API call
+            fetch('/students', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: nameVal, age: ageVal })
+            })
+            .then(response => {
+                if (response.ok) {
+                    loadStudents(); // Reload table visualizing new data
+                    document.getElementById('student-form').reset(); // Clear form inputs
+                } else {
+                    alert('Validation error saving student (Check constraints!).');
+                }
+            });
+        });
+
+        // Run this automatically as soon as the HTML page loads
+        loadStudents();
+    </script>
+</body>
+</html>
