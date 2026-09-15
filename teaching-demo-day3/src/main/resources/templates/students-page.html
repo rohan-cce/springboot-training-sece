@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Management System</title>
+</head>
+<body>
+    <h1>Student Management UI</h1>
+    <hr/>
+    
+    <h3>1. Add a New Student (UI-CRUD Integration)</h3>
+    <form th:action="@{/ui/students/add}" th:object="${newStudent}" method="post">
+        <div>
+            <label>Full Name:</label>
+            <input type="text" th:field="*{name}" required/>
+        </div>
+        <br/>
+        <div>
+            <label>Age:</label>
+            <input type="number" th:field="*{age}" required/>
+        </div>
+        <br/>
+        <button type="submit">Submit Record natively to Database</button>
+    </form>
+    
+    <hr/>
+    <h3>2. Current Student Database Roster</h3>
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.id}"></td>
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.age}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

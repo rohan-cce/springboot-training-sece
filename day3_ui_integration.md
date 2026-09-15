@@ -1,49 +1,28 @@
-# Day 3: Frontend Integration & WebSecurity (Trainer Script)
+# LEAP Day 3: UI, Validation, Testing & Finalization
 
-## Session 1: Client vs Server Web Architectures (1.5 Hours)
+## 16. Introduction to Web Interface (8:40 am – 9:10 am)
+> **What to say:** "Welcome to Day 3! We have successfully engineered the invisible backend database layer natively. However, standard users will never interact visually with Postman. We must architect a graphical interface.
+> Today, we bridge Java directly with HTML using a native templating engine creatively called **Thymeleaf**. It effectively allows our Java code to natively inject dynamic variables directly into our physical HTML rendering."
 
-### 1. The True Separation of Concerns
-> **What to say:** "Welcome to Day 3! We’ve built an incredibly robust backend vault that processes endpoints securely via JSON. But normal enterprise users cannot use Postman to manipulate databases. They need a graphical interface!
-> 
-> Here is a vital modern web truth: The Java Backend structurally *should not construct graphical HTML*. The Java Backend exists strictly to distribute raw JSON payloads (`@RestController`). The Frontend (HTML, CSS, JavaScript) lives completely separated on the user's laptop or mobile device. The Frontend dynamically reaches across the internet asynchronously, downloads the raw JSON from Java, and paints the visuals itself!"
+## 17. Create Web Pages & Forms (9:10 am – 10:00 am)
+> **What to say:** "Let's build `students-page.html` globally. We will construct a visually fundamental `<table>` mapping our structural database, and a structurally explicit `<form>` collecting name and age inputs natively! We define the form using strict visual methods: `<form method='post'>`. Without styling, native HTML will look aggressively retro, but it functionally captures user intent completely!"
 
-### 2. Static Web Resources
-> **What to say:** "When users explicitly type our domain name into their Chrome browsers, our Spring Boot server simply grabs raw `.html` files from our `src/main/resources/static/` physical folder and ships them completely untouched explicitly over the network directly into the user's local browser memory."
+## 18. UI–CRUD Integration (10:00 am – 11:15 am)
+> **What to say:** "Now we natively bridge the Gap! In Java, we establish a `WebUiController` equipped specifically with `@Controller`. We inject our `StudentService`. Inside our `@GetMapping("/ui/students")`, we fetch all active students organically from the MySQL database natively, load them actively into a Thymeleaf `Model`, and strictly return the physical HTML template. When a user browses to the URL globally, Thymeleaf dynamically prints physical `<tr>` table rows natively iterating through our database rows dynamically using logic called `th:each`!"
 
-## Session 2: HTML & CSS Crash Course (1.5 Hours)
+*(11:15 am – 11:35 am Forenoon Break)*
 
-### 1. HTML Layouts & Pico CSS
-> **What to say:** "Let's build that structural HTML! The `<table>` constructs grids, and the `<form>` collects data entries. Notice how plain HTML looks aggressively ugly like a 1990s web page. Professional styling via CSS normally takes weeks to master. 
-> 
-> Fortunately, we have a shortcut! I want everyone to inject this simple **Pico CSS CDN** link into their `<head>` section. Pico is a 'class-less' framework. The pure instant it detects standard HTML tables and input tags, it automatically styles them universally with a clean, dynamic, modern dark mode layout requiring absolutely zero extra CSS logic from us!"
+## 19. Input Validation (11:35 am – 12:30 pm)
+> **What to say:** "What brutally happens if a user submits negative fifty locally as their age via the HTML form or JSON API? The DB inherently crashes or strictly accepts garbage math. We aggressively map `spring-boot-starter-validation` natively inside our `pom.xml`. Then, we definitively stick `@Positive` over our `age` variable in `StudentDTO.java`. Now, Java blocks terrible input mechanically globally!"
 
-## Session 3: Javascript API Integration (1.5 Hours)
+## 20. Exception Handling (12:30 pm – 1:15 pm)
+> **What to say:** "When `@Valid` triggers a blockage natively, Tomcat throws a horrifying massive ugly stack trace directly onto our graphical UI natively. This strictly ruins Professional UX. 
+> To conquer this, we physically engineer the `GlobalExceptionHandler.java` applying the `@ControllerAdvice` global net! If our application organically crashes during validation uniquely, this handler actively intercepts the stack trace natively and forces a pristine clean JSON error message seamlessly protecting the UI completely!"
 
-### 1. The Power of `fetch()`
-> **What to say:** "Java fundamentally runs exclusively on the Server. JavaScript runs exclusively inside the User's Browser Engine. They are entirely disconnected programming environments!
-> 
-> So, how does Javascript speak to Java? Using the `fetch()` API! When our HTML loads, Javascript silently triggers a `fetch('/students')` sequence dynamically pulling a `GET` request. It traps the JSON response globally, leverages DOM manipulation to physically construct brand new `<tr>` table rows iteratively, and artificially injects them dynamically into our blank HTML table to vividly display our active Database!"
+*(1:15 pm – 2:00 pm Lunch Break)*
 
-### 2. The Asynchronous Submit Form
-> **What to say:** "Now for creating students visually. We intercept the frontend HTML form using Javascript `onsubmit()`. The exact second the user clicks 'Save', Javascript brutally prevents the browser from executing a default page refresh. It silently rips the written text out of the input variables, packages them into a strictly serialized JSON payload string, and seamlessly launches a `POST` request asynchronously backwards to the Spring Boot `@RestController`! If Spring successfully accepts it, Javascript just quietly repaints the visible table instantly!"
+## 21. Application Testing & Debugging (2:00 pm – 3:00 pm)
+> **What to say:** "It is time to stress-test your architecture completely natively! I want you organically entering strictly invalid inputs intentionally! Ensure validation handles failure cleanly natively. Test the entire flow completely natively: UI -> Controller -> Service -> Database natively returning back structurally to UI."
 
-## Session 4: Web Security Filters & REST Status Codes (1.5 Hours)
-
-### 1. The Servlet Filter Gauntlet
-> **What to say:** "There is a massive security flaw in our current architecture. Right now, literally anyone on planet Earth can blindly hit our API and physically extract all of our student records!
-> 
-> Before a web request ever tangibly touches our Java `@RestController`, it must survive traversing a massive gauntlet of network filters. The most important filter is Spring Security. The instant you drop `spring-boot-starter-security` into your Pom file, it magically activates Auto-Configuration locking down the entire framework simultaneously by default."
-
-### 2. Authoring the Security Config
-> **What to say:** "Let's build a programmatic `SecurityConfig.java`. We will map a specific rule: `.requestMatchers('/index.html').permitAll()`. This is highly crucial because it forces the underlying static UI visual frame to remain perfectly unauthenticated so external users can actually see the web page globally. 
-> 
-> Simultaneously, we enforce `.anyRequest().authenticated()`. This strictly demands that any subsequent API REST requests—like Javascript pulling the students list—must definitively possess credentials!"
-
-### 3. REST Status Codes Broken Down
-> **What to say:** "When security fails structurally, the API returns extremely specific error integers natively:
-> *   `401 Unauthorized`: You blatantly provided no password at all. Your credentials lack complete authentication natively.
-> *   `403 Forbidden`: You successfully provided a perfectly valid password, but you're just a base 'User' role illegally trying to hit a globally restricted 'Super Admin' endpoint authorization.
-> *   `400 Bad Request`: Validation failure. You submitted negative ages structurally into our DTO logic!
-> *   `404 Not Found`: A URL typo!
-> 
-> Now, go to Postman, remove all credentials entirely, and attempt fetching `/students`. Watch it structurally fail, yielding a brutal 401 error blocking your path permanently! Congratulations, you have successfully built a massive enterprise-tier Spring application!"
+## 22. Project Finalization & Demonstration (3:00 pm – 4:10 pm)
+> **What to say:** "Congratulations! You have physically scaled from zero to a strictly Enterprise-ready structurally fully-integrated Spring framework Natively supporting Relational databases, strict CRUD APIs visually rendered natively on Thymeleaf. Let's globally execute complete application demonstrations locally on stage to conclude LEAP!"
