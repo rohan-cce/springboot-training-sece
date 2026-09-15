@@ -13,6 +13,6 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
     // This JPA SQL query is fundamentally illegal! Hibernate physically validates queries on server startup.
     // This will violently crash the entire Tomcat Server on boot, completely destroying the application!
     // To FIX IT on stage, simply comment out the next two lines to restore application power!
-    @Query("SELECT s FROM ImaginaryTable s WHERE s.fakeColumn = 1")
+    @Query("SELECT b FROM ImaginaryBankTable b WHERE b.fakeBankCode = 1")
     List<BankAccount> triggerMassiveApplicationCrash();
 }

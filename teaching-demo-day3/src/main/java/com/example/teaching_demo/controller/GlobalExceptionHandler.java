@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-// @ControllerAdvice // <-- TUTOR SABOTAGE: Leave commented out! Intentionally submit negative age in the HTML UI, watch the raw Java exception brutally wreck the browser! Then uncomment this to prove it catches errors cleanly!
+// @ControllerAdvice // <-- TUTOR SABOTAGE: Leave commented out! Intentionally submit negative balance in the HTML UI, watch the raw Java exception brutally wreck the browser! Then uncomment this to prove it catches errors cleanly!
 public class GlobalExceptionHandler {
 
     // Natively traps @Valid crashes explicitly for Day 3!

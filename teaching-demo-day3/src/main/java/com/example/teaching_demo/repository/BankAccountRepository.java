@@ -6,5 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
-    // Basic CRUD operations are completely implicitly generated!
+    // TUTOR SABOTAGE (APP STOPS COMPLETELY):
+    // This JPA SQL query is fundamentally illegal! Hibernate physically validates queries on server startup.
+    // This will violently crash the entire Tomcat Server on boot, completely destroying the application!
+    // To FIX IT on stage, simply comment out the next two lines to restore application power!
+    @Query("SELECT b FROM ImaginaryBankTable b WHERE b.fakeBankCode = 1")
+    List<BankAccount> triggerMassiveApplicationCrash();
 }
