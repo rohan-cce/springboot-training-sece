@@ -8,12 +8,12 @@
 > **What to say:** "Let's build `index.html` globally inside `src/main/resources/static`. We will construct a visually fundamental `<table>` structure, and a structurally explicit `<form>` collecting name and age inputs natively! We define the form securely to intercept submissions via Javascript. Without styling, native HTML will look aggressively retro, so we'll use PicoCSS for a modern look!"
 
 ## 18. UI–CRUD Integration (10:00 am – 11:15 am)
-> **What to say:** "Now we natively bridge the Gap! In Java, our `StudentController` natively handles `/students`. In our `index.html`, we write Javascript to use `fetch('/students')`. When a user browses to the URL locally, Javascript organically reaches out to our Server, fetches all active students as raw JSON data, and strictly iterates over it dynamically printing physical `<tr>` table rows natively!"
+> **What to say:** "Now we natively bridge the Gap! In Java, our `BankAccountController` natively handles `/accounts`. In our `index.html`, we write Javascript to use `fetch('/accounts')`. When a user browses to the URL locally, Javascript organically reaches out to our Server, fetches all active accounts as raw JSON data, and strictly iterates over it dynamically printing physical `<tr>` table rows natively!"
 
 *(11:15 am – 11:35 am Forenoon Break)*
 
 ## 19. Input Validation (11:35 am – 12:30 pm)
-> **What to say:** "What brutally happens if a user submits negative fifty locally as their age via the HTML form or JSON API? The DB inherently crashes or strictly accepts garbage math. We aggressively map `spring-boot-starter-validation` natively inside our `pom.xml`. Then, we definitively stick `@Positive` over our `age` variable in `StudentDTO.java`. Now, Java blocks terrible input mechanically globally!"
+> **What to say:** "What brutally happens if a user submits negative fifty locally as their age via the HTML form or JSON API? The DB inherently crashes or strictly accepts garbage math. We aggressively map `spring-boot-starter-validation` natively inside our `pom.xml`. Then, we definitively stick `@Positive` over our `age` variable in `BankAccountDTO.java`. Now, Java blocks terrible input mechanically globally!"
 
 ## 20. Exception Handling (12:30 pm – 1:15 pm)
 > **What to say:** "When `@Valid` triggers a blockage natively, Tomcat throws a horrifying massive ugly stack trace directly onto our graphical UI natively. This strictly ruins Professional UX. 

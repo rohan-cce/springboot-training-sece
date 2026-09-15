@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Directory</title>
+    <title>Bank Account Directory</title>
     <!-- Basic aesthetic CSS mapping so we don't have to write CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <style>
@@ -11,86 +11,86 @@
     </style>
 </head>
 <body>
-    <h1>Student Directory</h1>
+    <h1>Bank Account Directory</h1>
     
     <div class="form-container">
-        <h3>Add a New Student</h3>
+        <h3>Add a New Account</h3>
         <!-- Note: We use Javascript to submit this form, no 'action' attribute is needed -->
-        <form id="student-form">
-            <label>Name: </label>
-            <input type="text" id="name" required placeholder="Enter student name" />
+        <form id="account-form">
+            <label>Account Holder Name: </label>
+            <input type="text" id="accountHolderName" required placeholder="Enter account holder name" />
             
-            <label>Age: </label>
-            <input type="number" id="age" required min="1" placeholder="Enter student age" />
+            <label>Initial Balance: </label>
+            <input type="number" step="0.01" id="balance" required min="1" placeholder="Enter robust initial balance" />
             
-            <button type="submit">Save Student</button>
+            <button type="submit">Save Account</button>
         </form>
     </div>
 
-    <h3>Registered Students</h3>
+    <h3>Registered Accounts</h3>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
+                <th>Account Holder Name</th>
+                <th>Balance</th>
             </tr>
         </thead>
         <!-- Empty body; Javascript will aggressively build the rows here dynamically -->
-        <tbody id="student-table">
+        <tbody id="account-table">
         </tbody>
     </table>
 
     <script>
-        // 1. Fetch Students from the API (GET Request)
-        function loadStudents() {
-            fetch('/students')
+        // 1. Fetch Accounts from the API (GET Request)
+        function loadBankAccounts() {
+            fetch('/accounts')
                 .then(response => response.json())
-                .then(students => {
-                    const table = document.getElementById('student-table');
+                .then(accounts => {
+                    const table = document.getElementById('account-table');
                     table.innerHTML = ''; // Clear old visual data
                     
                     // Loop through the JSON array and construct HTML strings natively
-                    students.forEach(student => {
+                    accounts.forEach(account => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${student.id}</td>
-                            <td>${student.name}</td>
-                            <td>${student.age}</td>
+                            <td>${account.id}</td>
+                            <td>${account.accountHolderName}</td>
+                            <td>$${account.balance}</td>
                         `;
                         table.appendChild(tr);
                     });
                 });
         }
 
-        // 2. Add New Student (POST Request)
-        document.getElementById('student-form').addEventListener('submit', function(event) {
+        // 2. Add New Account (POST Request)
+        document.getElementById('account-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Stop page from hard-refreshing
             
             // Extract what the user typed in the boxes
-            const nameVal = document.getElementById('name').value;
-            const ageVal = document.getElementById('age').value;
+            const holderVal = document.getElementById('accountHolderName').value;
+            const balanceVal = document.getElementById('balance').value;
 
             // Make the background API call
-            fetch('/students', {
+            fetch('/accounts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name: nameVal, age: ageVal })
+                body: JSON.stringify({ accountHolderName: holderVal, balance: balanceVal })
             })
             .then(response => {
                 if (response.ok) {
-                    loadStudents(); // Reload table visualizing new data
-                    document.getElementById('student-form').reset(); // Clear form inputs
+                    loadBankAccounts(); // Reload table visualizing new data
+                    document.getElementById('account-form').reset(); // Clear form inputs
                 } else {
-                    alert('Validation error saving student (Check constraints!).');
+                    alert('Validation error saving account (Check constraints!).');
                 }
             });
         });
 
         // Run this automatically as soon as the HTML page loads
-        loadStudents();
+        loadBankAccounts();
     </script>
 </body>
 </html>

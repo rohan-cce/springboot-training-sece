@@ -1,4 +1,4 @@
-# Spring Initializr Setup Guide for Students
+# Spring Initializr Setup Guide for BankAccounts
 
 To ensure everyone is on the same page for the new curriculum with MySQL and Thymeleaf, please follow these exact steps when creating your project on [start.spring.io](https://start.spring.io/).
 

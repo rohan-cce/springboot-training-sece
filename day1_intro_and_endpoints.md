@@ -29,8 +29,8 @@
 > 1. The **Controller (`@RestController`)** acts purely effectively as a Traffic Cop routing URL requests natively, doing absolutely zero physical logic.
 > 2. The **Service Layer (`@Service`)** exclusively processes complex heavy math calculations structurally!
 > 
-> Let's build a `StudentController` relying dynamically on a `StudentService` using **Dependency Injection** internally. The Service will natively hold our volatile generic `ArrayList` isolating it from the web requests completely!"
+> Let's build a `BankAccountController` relying dynamically on a `BankAccountService` using **Dependency Injection** internally. The Service will natively hold our volatile generic `ArrayList` isolating it from the web requests completely!"
 
 ## 8. API Testing with Postman (3:00 pm – 4:10 pm)
-> **What to say:** "Chrome cannot securely execute `POST` Requests organically from its URL bar. This physically restricts us natively. Look at Postman. Postman is a developer tool allowing us to craft massive `POST` body JSON blocks perfectly and inject them structurally into our exact endpoint. Send a JSON Student body natively. See our 200 OK locally returned! Notice how our array dynamically scales up inside RAM volatile memory successfully! 
+> **What to say:** "Chrome cannot securely execute `POST` Requests organically from its URL bar. This physically restricts us natively. Look at Postman. Postman is a developer tool allowing us to craft massive `POST` body JSON blocks perfectly and inject them structurally into our exact endpoint. Send a JSON BankAccount body natively. See our 200 OK locally returned! Notice how our array dynamically scales up inside RAM volatile memory successfully! 
 > *(Tutor note: The volatile Array memory loss will securely bridge them into tomorrow's Database class natively.)*"
