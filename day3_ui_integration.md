@@ -2,13 +2,13 @@
 
 ## 16. Introduction to Web Interface (8:40 am – 9:10 am)
 > **What to say:** "Welcome to Day 3! We have successfully engineered the invisible backend database layer natively. However, standard users will never interact visually with Postman. We must architect a graphical interface.
-> Today, we bridge Java directly with HTML using a native templating engine creatively called **Thymeleaf**. It effectively allows our Java code to natively inject dynamic variables directly into our physical HTML rendering."
+> Today, we bridge Java directly with native HTML/CSS/JS. We will serve a static website that fetches data dynamically from our Java REST API."
 
 ## 17. Create Web Pages & Forms (9:10 am – 10:00 am)
-> **What to say:** "Let's build `students-page.html` globally. We will construct a visually fundamental `<table>` mapping our structural database, and a structurally explicit `<form>` collecting name and age inputs natively! We define the form using strict visual methods: `<form method='post'>`. Without styling, native HTML will look aggressively retro, but it functionally captures user intent completely!"
+> **What to say:** "Let's build `index.html` globally inside `src/main/resources/static`. We will construct a visually fundamental `<table>` structure, and a structurally explicit `<form>` collecting name and age inputs natively! We define the form securely to intercept submissions via Javascript. Without styling, native HTML will look aggressively retro, so we'll use PicoCSS for a modern look!"
 
 ## 18. UI–CRUD Integration (10:00 am – 11:15 am)
-> **What to say:** "Now we natively bridge the Gap! In Java, we establish a `WebUiController` equipped specifically with `@Controller`. We inject our `StudentService`. Inside our `@GetMapping("/ui/students")`, we fetch all active students organically from the MySQL database natively, load them actively into a Thymeleaf `Model`, and strictly return the physical HTML template. When a user browses to the URL globally, Thymeleaf dynamically prints physical `<tr>` table rows natively iterating through our database rows dynamically using logic called `th:each`!"
+> **What to say:** "Now we natively bridge the Gap! In Java, our `StudentController` natively handles `/students`. In our `index.html`, we write Javascript to use `fetch('/students')`. When a user browses to the URL locally, Javascript organically reaches out to our Server, fetches all active students as raw JSON data, and strictly iterates over it dynamically printing physical `<tr>` table rows natively!"
 
 *(11:15 am – 11:35 am Forenoon Break)*
 
